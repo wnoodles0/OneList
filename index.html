@@ -23,6 +23,29 @@
             color: #0056b3;
             text-align: center;
         }
+        .input-section {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .input-section input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        .input-section button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .input-section button:hover {
+            background-color: #218838;
+        }
         ul {
             list-style-type: none;
             padding: 0;
@@ -34,87 +57,205 @@
             border-radius: 4px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
         }
-        li::before {
-            content: '🛒';
+        li.checked {
+            background-color: #d4edda;
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        li input[type="checkbox"] {
             margin-right: 10px;
+            transform: scale(1.2);
+        }
+        li span {
+            flex-grow: 1;
+        }
+        li .actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 10px;
+            color: #007bff;
+        }
+        li .actions button.delete {
+            color: #dc3545;
+        }
+        li .actions button:hover {
+            opacity: 0.7;
+        }
+        .reset-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .reset-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>รายการสิ่งของที่จะซื้อ</h1>
-        <ul>
-            <li>ไก่สด</li>
-            <li>เล็บมือนาง</li>
-            <li>ตีนไก่</li>
-            <li>ปลาดุก</li>
-            <li>กุ้งสด</li>
-            <li>หมึกสด</li>
-            <li>ปูม้า</li>
-            <li>ปูดำ</li>
-            <li>สีผสมอาหาร</li>
-            <li>ถุงหิ้ว 8*16</li>
-            <li>ถุงร้อน 6*11</li>
-            <li>ถั่วลิสง</li>
-            <li>กุ้งแห้ง</li>
-            <li>กระเทียมเล็ก</li>
-            <li>กระเทียมใหญ่</li>
-            <li>กล่องใส่ไก่</li>
-            <li>น้ำมะนาว</li>
-            <li>น้ำกระเทียมดอง</li>
-            <li>น้ำมันหอย</li>
-            <li>น้ำมันพืช</li>
-            <li>ซอสพริก</li>
-            <li>ซอสฝาเขียว</li>
-            <li>เกลือ</li>
-            <li>พริกไทยดำ</li>
-            <li>หอยดอง</li>
-            <li>กะปิแท้</li>
-            <li>น้ำตามะพร้าว</li>
-            <li>น้ำตาลปี๊บ</li>
-            <li>พริกแห้ง</li>
-            <li>หอมแขก</li>
-            <li>ไม้เสียบปลาดุก</li>
-            <li>ถ้วยโฟม</li>
-            <li>ช้อนส้อมพลาสติก</li>
-            <li>เส้นเล็ก</li>
-            <li>หมูทำต้ม</li>
-            <li>หมูสับ</li>
-            <li>เนื้อทำต้ม</li>
-            <li>เนื้อทำก้อย</li>
-            <li>ดีวัว</li>
-            <li>หอยเชอรี่</li>
-            <li>หน่อไม้ใส่ตำป่า</li>
-            <li>หมูยอ</li>
-            <li>ไข่เค็ม</li>
-            <li>ขนมจีน</li>
-            <li>พริกสด</li>
-            <li>ผักกะหล่ำ</li>
-            <li>มะเขือเปราะ</li>
-            <li>ถั่วฝักยาว</li>
-            <li>แตงกวา</li>
-            <li>ข่า</li>
-            <li>ตะไคร้</li>
-            <li>ใบมะกรูด</li>
-            <li>ต้นหอม</li>
-            <li>ผักชี</li>
-            <li>ผักชีใบเลื่อย</li>
-            <li>ผักชีลาว</li>
-            <li>โหระพา</li>
-            <li>ข้าวโพด</li>
-            <li>มะละกอ</li>
-            <li>มะนาว</li>
-            <li>มะเขือเทศ</li>
-            <li>มะม่วง</li>
-            <li>ผักบุ้ง</li>
-            <li>ใบเตย</li>
-            <li>น้ำตาลทราย</li>
-            <li>น้ำปลา</li>
-            <li>ผงชูรส</li>
-            <li>รสดี</li>
-            <li>คนอร์</li>
+        <div class="input-section">
+            <input type="text" id="newItemInput" placeholder="เพิ่มรายการใหม่...">
+            <button onclick="addItem()">เพิ่ม</button>
+        </div>
+        <ul id="shoppingList">
+            <!-- รายการจะถูกโหลดด้วย JavaScript -->
         </ul>
+        <button class="reset-button" onclick="resetList()">รีเซ็ตรายการ</button>
     </div>
+
+    <script>
+        const shoppingList = document.getElementById('shoppingList');
+        const newItemInput = document.getElementById('newItemInput');
+
+        let items = JSON.parse(localStorage.getItem('oneListItems')) || [
+            { text: 'ไก่สด', checked: false },
+            { text: 'เล็บมือนาง', checked: false },
+            { text: 'ตีนไก่', checked: false },
+            { text: 'ปลาดุก', checked: false },
+            { text: 'กุ้งสด', checked: false },
+            { text: 'หมึกสด', checked: false },
+            { text: 'ปูม้า', checked: false },
+            { text: 'ปูดำ', checked: false },
+            { text: 'สีผสมอาหาร', checked: false },
+            { text: 'ถุงหิ้ว 8*16', checked: false },
+            { text: 'ถุงร้อน 6*11', checked: false },
+            { text: 'ถั่วลิสง', checked: false },
+            { text: 'กุ้งแห้ง', checked: false },
+            { text: 'กระเทียมเล็ก', checked: false },
+            { text: 'กระเทียมใหญ่', checked: false },
+            { text: 'กล่องใส่ไก่', checked: false },
+            { text: 'น้ำมะนาว', checked: false },
+            { text: 'น้ำกระเทียมดอง', checked: false },
+            { text: 'น้ำมันหอย', checked: false },
+            { text: 'น้ำมันพืช', checked: false },
+            { text: 'ซอสพริก', checked: false },
+            { text: 'ซอสฝาเขียว', checked: false },
+            { text: 'เกลือ', checked: false },
+            { text: 'พริกไทยดำ', checked: false },
+            { text: 'หอยดอง', checked: false },
+            { text: 'กะปิแท้', checked: false },
+            { text: 'น้ำตามะพร้าว', checked: false },
+            { text: 'น้ำตาลปี๊บ', checked: false },
+            { text: 'พริกแห้ง', checked: false },
+            { text: 'หอมแขก', checked: false },
+            { text: 'ไม้เสียบปลาดุก', checked: false },
+            { text: 'ถ้วยโฟม', checked: false },
+            { text: 'ช้อนส้อมพลาสติก', checked: false },
+            { text: 'เส้นเล็ก', checked: false },
+            { text: 'หมูทำต้ม', checked: false },
+            { text: 'หมูสับ', checked: false },
+            { text: 'เนื้อทำต้ม', checked: false },
+            { text: 'เนื้อทำก้อย', checked: false },
+            { text: 'ดีวัว', checked: false },
+            { text: 'หอยเชอรี่', checked: false },
+            { text: 'หน่อไม้ใส่ตำป่า', checked: false },
+            { text: 'หมูยอ', checked: false },
+            { text: 'ไข่เค็ม', checked: false },
+            { text: 'ขนมจีน', checked: false },
+            { text: 'พริกสด', checked: false },
+            { text: 'ผักกะหล่ำ', checked: false },
+            { text: 'มะเขือเปราะ', checked: false },
+            { text: 'ถั่วฝักยาว', checked: false },
+            { text: 'แตงกวา', checked: false },
+            { text: 'ข่า', checked: false },
+            { text: 'ตะไคร้', checked: false },
+            { text: 'ใบมะกรูด', checked: false },
+            { text: 'ต้นหอม', checked: false },
+            { text: 'ผักชี', checked: false },
+            { text: 'ผักชีใบเลื่อย', checked: false },
+            { text: 'ผักชีลาว', checked: false },
+            { text: 'โหระพา', checked: false },
+            { text: 'ข้าวโพด', checked: false },
+            { text: 'มะละกอ', checked: false },
+            { text: 'มะนาว', checked: false },
+            { text: 'มะเขือเทศ', checked: false },
+            { text: 'มะม่วง', checked: false },
+            { text: 'ผักบุ้ง', checked: false },
+            { text: 'ใบเตย', checked: false },
+            { text: 'น้ำตาลทราย', checked: false },
+            { text: 'น้ำปลา', checked: false },
+            { text: 'ผงชูรส', checked: false },
+            { text: 'รสดี', checked: false },
+            { text: 'คนอร์', checked: false }
+        ];
+
+        function saveItems() {
+            localStorage.setItem('oneListItems', JSON.stringify(items));
+        }
+
+        function renderList() {
+            shoppingList.innerHTML = '';
+            items.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = item.checked ? 'checked' : '';
+                li.innerHTML = `
+                    <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleCheck(${index})">
+                    <span>${item.text}</span>
+                    <div class="actions">
+                        <button onclick="editItem(${index})">แก้ไข</button>
+                        <button class="delete" onclick="deleteItem(${index})">ลบ</button>
+                    </div>
+                `;
+                shoppingList.appendChild(li);
+            });
+        }
+
+        function addItem() {
+            const itemText = newItemInput.value.trim();
+            if (itemText !== '') {
+                items.push({ text: itemText, checked: false });
+                newItemInput.value = '';
+                saveItems();
+                renderList();
+            }
+        }
+
+        function toggleCheck(index) {
+            items[index].checked = !items[index].checked;
+            saveItems();
+            renderList();
+        }
+
+        function editItem(index) {
+            const newText = prompt('แก้ไขรายการ:', items[index].text);
+            if (newText !== null && newText.trim() !== '') {
+                items[index].text = newText.trim();
+                saveItems();
+                renderList();
+            }
+        }
+
+        function deleteItem(index) {
+            if (confirm('คุณต้องการลบรายการนี้หรือไม่?')) {
+                items.splice(index, 1);
+                saveItems();
+                renderList();
+            }
+        }
+
+        function resetList() {
+            if (confirm('คุณต้องการรีเซ็ตรายการทั้งหมดหรือไม่? (สถานะเช็คจะถูกล้าง)')) {
+                items.forEach(item => item.checked = false);
+                saveItems();
+                renderList();
+            }
+        }
+
+        // โหลดรายการเมื่อหน้าเว็บโหลดเสร็จ
+        document.addEventListener('DOMContentLoaded', renderList);
+    </script>
 </body>
 </html>
+
