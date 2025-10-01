@@ -194,6 +194,79 @@
             visibility: visible;
             opacity: 1;
         }
+
+        .bag-selection-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e6ed;
+        }
+
+        .bag-selection-section h2 {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .bag-type-group {
+            margin-bottom: 20px;
+        }
+
+        .bag-type-group h3 {
+            font-size: 1.2em;
+            color: #34495e;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #e0e6ed;
+            padding-bottom: 5px;
+        }
+
+        .bag-size-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .bag-size-option {
+            position: relative;
+            display: inline-block;
+        }
+
+        .bag-size-option input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .bag-size-option span {
+            display: block;
+            padding: 10px 15px;
+            border: 2px solid #aebfd1;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            color: #34495e;
+            font-size: 1em;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        .bag-size-option input[type="checkbox"]:checked + span {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        .bag-size-option span:hover {
+            background-color: #e9ecef;
+            border-color: #007bff;
+        }
+
+        .bag-size-option input[type="checkbox"]:checked + span:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -202,6 +275,21 @@
         <div class="input-section">
             <input type="text" id="newItemInput" placeholder="เพิ่มรายการใหม่...">
             <button onclick="addItem()">เพิ่ม</button>
+        </div>
+        <div class="bag-selection-section">
+            <h2>ขนาด:</h2>
+            <div class="bag-type-group">
+                <h3>ถุงหิ้ว</h3>
+                <div class="bag-size-options" id="carryBagOptions">
+                    <!-- Options will be loaded by JavaScript -->
+                </div>
+            </div>
+            <div class="bag-type-group">
+                <h3>ถุงร้อน</h3>
+                <div class="bag-size-options" id="hotBagOptions">
+                    <!-- Options will be loaded by JavaScript -->
+                </div>
+            </div>
         </div>
         <ul id="shoppingList">
             <!-- รายการจะถูกโหลดด้วย JavaScript -->
@@ -214,6 +302,8 @@
     <script>
         const shoppingList = document.getElementById("shoppingList");
         const newItemInput = document.getElementById("newItemInput");
+        const carryBagOptions = document.getElementById("carryBagOptions");
+        const hotBagOptions = document.getElementById("hotBagOptions");
 
         let items = JSON.parse(localStorage.getItem("oneListItems")) || [
             { text: "ไก่สด", checked: false },
@@ -224,9 +314,8 @@
             { text: "หมึกสด", checked: false },
             { text: "ปูม้า", checked: false },
             { text: "ปูดำ", checked: false },
+            { text: "หอยเชอรี่", checked: false },
             { text: "สีผสมอาหาร", checked: false },
-            { text: "ถุงหิ้ว 8*16", checked: false },
-            { text: "ถุงร้อน 6*11", checked: false },
             { text: "ถั่วลิสง", checked: false },
             { text: "กุ้งแห้ง", checked: false },
             { text: "กระเทียมเล็ก", checked: false },
@@ -252,11 +341,10 @@
             { text: "เส้นเล็ก", checked: false },
             { text: "หมูทำต้ม", checked: false },
             { text: "หมูสับ", checked: false },
+            { text: "คอแท้หมู", checked: false },
             { text: "เนื้อทำต้ม", checked: false },
             { text: "เนื้อทำก้อย", checked: false },
             { text: "ดีวัว", checked: false },
-            { text: "หอยเชอรี่", checked: false },
-            { text: "หน่อไม้ใส่ตำป่า", checked: false },
             { text: "หมูยอ", checked: false },
             { text: "ไข่เค็ม", checked: false },
             { text: "ขนมจีน", checked: false },
@@ -265,6 +353,7 @@
             { text: "มะเขือเปราะ", checked: false },
             { text: "ถั่วฝักยาว", checked: false },
             { text: "แตงกวา", checked: false },
+            { text: "หน่อไม้ใส่ตำป่า", checked: false },
             { text: "ข่า", checked: false },
             { text: "ตะไคร้", checked: false },
             { text: "ใบมะกรูด", checked: false },
@@ -287,31 +376,96 @@
             { text: "คนอร์", checked: false }
         ];
 
+        const bagSizes = {
+            "ถุงหิ้ว": ["12*20", "8*16", "7*15"],
+            "ถุงร้อน": ["14*12", "3*5", "4/5*7", "6*11"]
+        };
+
+        let selectedBagItems = JSON.parse(localStorage.getItem("oneListSelectedBagItems")) || {};
+
+
         function saveItems() {
             localStorage.setItem("oneListItems", JSON.stringify(items));
+            localStorage.setItem("oneListSelectedBagItems", JSON.stringify(selectedBagItems));
+        }
+
+        function renderBagOptions() {
+            carryBagOptions.innerHTML = "";
+            hotBagOptions.innerHTML = "";
+
+            bagSizes["ถุงหิ้ว"].forEach(size => {
+                const isChecked = selectedBagItems["ถุงหิ้ว"] && selectedBagItems["ถุงหิ้ว"].includes(size);
+                carryBagOptions.innerHTML += `
+                    <label class="bag-size-option">
+                        <input type="checkbox" data-bag-type="ถุงหิ้ว" value="${size}" ${isChecked ? "checked" : ""} onchange="toggleBagSelection('ถุงหิ้ว', '${size}')">
+                        <span>${size}</span>
+                    </label>
+                `;
+            });
+
+            bagSizes["ถุงร้อน"].forEach(size => {
+                const isChecked = selectedBagItems["ถุงร้อน"] && selectedBagItems["ถุงร้อน"].includes(size);
+                hotBagOptions.innerHTML += `
+                    <label class="bag-size-option">
+                        <input type="checkbox" data-bag-type="ถุงร้อน" value="${size}" ${isChecked ? "checked" : ""} onchange="toggleBagSelection('ถุงร้อน', '${size}')">
+                        <span>${size}</span>
+                    </label>
+                `;
+            });
+        }
+
+        function toggleBagSelection(type, size) {
+            if (!selectedBagItems[type]) {
+                selectedBagItems[type] = [];
+            }
+
+            const index = selectedBagItems[type].indexOf(size);
+            if (index > -1) {
+                selectedBagItems[type].splice(index, 1);
+            } else {
+                selectedBagItems[type].push(size);
+            }
+            saveItems();
+            renderList(); // Re-render main list to reflect changes
         }
 
         function renderList() {
             shoppingList.innerHTML = "";
-            items.forEach((item, index) => {
+
+            // Add selected bag items to the list first
+            let currentBagItems = [];
+            for (const type in selectedBagItems) {
+                selectedBagItems[type].forEach(size => {
+                    currentBagItems.push({ text: `${type} ${size}`, checked: false, isBag: true });
+                });
+            }
+
+            // Filter out existing bag items from the main items array to avoid duplicates
+            const filteredItems = items.filter(item => !item.isBag);
+
+            // Combine bag items and other items
+            const combinedItems = [...currentBagItems, ...filteredItems];
+
+            combinedItems.forEach((item, index) => {
                 const li = document.createElement("li");
                 li.className = item.checked ? "checked" : "";
                 li.innerHTML = `
                     <input type="checkbox" ${item.checked ? "checked" : ""} onchange="toggleCheck(${index})">
                     <span>${item.text}</span>
                     <div class="actions">
-                        <button onclick="editItem(${index})">แก้ไข</button>
-                        <button class="delete" onclick="deleteItem(${index})">ลบ</button>
+                        ${!item.isBag ? `<button onclick="editItem(${index})">แก้ไข</button>` : ''}
+                        ${!item.isBag ? `<button class="delete" onclick="deleteItem(${index})">ลบ</button>` : ''}
                     </div>
                 `;
                 shoppingList.appendChild(li);
             });
+            renderBagOptions(); // Re-render bag options to update checked state
         }
 
         function addItem() {
             const itemText = newItemInput.value.trim();
             if (itemText !== "") {
-                items.push({ text: itemText, checked: false });
+                items.push({ text: itemText, checked: false, isBag: false });
                 newItemInput.value = "";
                 saveItems();
                 renderList();
@@ -344,6 +498,7 @@
         function resetList() {
             if (confirm("คุณต้องการรีเซ็ตรายการทั้งหมดหรือไม่? (สถานะเช็คจะถูกล้าง)")) {
                 items.forEach(item => item.checked = false);
+                selectedBagItems = {}; // Clear selected bag items
                 saveItems();
                 renderList();
             }
@@ -380,7 +535,10 @@
         }
 
         // โหลดรายการเมื่อหน้าเว็บโหลดเสร็จ
-        document.addEventListener("DOMContentLoaded", renderList);
+        document.addEventListener("DOMContentLoaded", () => {
+            renderList();
+            renderBagOptions();
+        });
     </script>
 </body>
 </html>
