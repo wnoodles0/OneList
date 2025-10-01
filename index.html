@@ -152,6 +152,48 @@
         .reset-button:active {
             transform: translateY(0);
         }
+        .copy-selected-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .copy-selected-button:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+        .copy-selected-button:active {
+            transform: translateY(0);
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 1.1em;
+            opacity: 0;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -164,7 +206,9 @@
         <ul id="shoppingList">
             <!-- รายการจะถูกโหลดด้วย JavaScript -->
         </ul>
+        <button class="copy-selected-button" onclick="copySelectedItems()">คัดลอกรายการที่เลือก</button>
         <button class="reset-button" onclick="resetList()">รีเซ็ตรายการ</button>
+        <div id="toast" class="toast"></div>
     </div>
 
     <script>
@@ -302,6 +346,36 @@
                 items.forEach(item => item.checked = false);
                 saveItems();
                 renderList();
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.className = "toast show";
+            setTimeout(function(){
+                toast.className = toast.className.replace("show", "");
+            }, 3000);
+        }
+
+        async function copySelectedItems() {
+            const selectedItems = items.filter(item => item.checked);
+            if (selectedItems.length === 0) {
+                showToast("ไม่มีรายการที่เลือกไว้");
+                return;
+            }
+
+            let textToCopy = "รายการของที่จะซื้อ:\n";
+            selectedItems.forEach(item => {
+                textToCopy += `- ${item.text}\n`;
+            });
+
+            try {
+                await navigator.clipboard.writeText(textToCopy);
+                showToast("✅ คัดลอกรายการไปยังคลิปบอร์ดแล้ว");
+            } catch (err) {
+                console.error("ไม่สามารถคัดลอกได้: ", err);
+                showToast("❌ ไม่สามารถคัดลอกรายการได้");
             }
         }
 
