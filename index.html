@@ -6,70 +6,87 @@
     <title>รายการสิ่งของที่จะซื้อ - OneList</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4a90e2;
+            --primary-hover-color: #357abd;
+            --secondary-color: #50e3c2;
+            --background-color: #f7f9fc;
+            --container-bg: #ffffff;
+            --text-color: #333;
+            --border-color: #e0e6ed;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+
         body {
             font-family: 'Kanit', sans-serif;
             margin: 0;
             padding: 20px;
-            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
-            color: #333;
+            background-color: var(--background-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
         }
         .container {
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             margin: 20px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border: 1px solid #e0e6ed;
+            background: var(--container-bg);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px var(--shadow-color);
+            border: 1px solid var(--border-color);
         }
         h1 {
             color: #2c3e50;
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             font-weight: 600;
-            font-size: 2.2em;
+            font-size: 2.5em;
+            letter-spacing: -1px;
         }
         .input-section {
             display: flex;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             gap: 10px;
         }
         .input-section input[type="text"] {
             flex-grow: 1;
-            padding: 12px 15px;
-            border: 2px solid #aebfd1;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
             font-size: 1.1em;
             outline: none;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
         .input-section input[type="text"]:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
         }
         .input-section button {
-            padding: 12px 20px;
-            background-color: #28a745;
+            padding: 14px 25px;
+            background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 1.1em;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
             flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
         }
         .input-section button:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
+            background-color: var(--primary-hover-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
         }
         .input-section button:active {
             transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
         }
         ul {
             list-style-type: none;
@@ -77,118 +94,122 @@
             margin: 0;
         }
         li {
-            background-color: #f8f9fa;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 8px;
+            background-color: var(--container-bg);
+            margin: 12px 0;
+            padding: 18px 20px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid #e0e6ed;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
         }
         li:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
         }
         li.checked {
-            background-color: #e6ffe6;
+            background-color: #eaf7e9; /* Lighter green for checked items */
             text-decoration: line-through;
-            color: #6c757d;
-            border-color: #c3e6cb;
+            color: #888;
+            border-color: #c8e6c9;
+            opacity: 0.8;
         }
         li input[type="checkbox"] {
             margin-right: 15px;
-            transform: scale(1.4);
-            accent-color: #28a745;
+            transform: scale(1.5);
+            accent-color: var(--success-color);
             cursor: pointer;
         }
         li span {
             flex-grow: 1;
-            font-size: 1.1em;
+            font-size: 1.15em;
             color: #34495e;
+            word-break: break-word;
         }
         li.checked span {
-            color: #95a5a6;
+            color: #aab8c2;
         }
         li .actions button {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.95em;
             margin-left: 10px;
-            color: #007bff;
-            transition: color 0.3s ease;
-            padding: 5px 8px;
-            border-radius: 5px;
+            color: var(--primary-color);
+            transition: color 0.3s ease, background-color 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: 500;
         }
         li .actions button.delete {
-            color: #dc3545;
+            color: var(--danger-color);
         }
         li .actions button:hover {
-            background-color: rgba(0, 123, 255, 0.1);
+            background-color: rgba(74, 144, 226, 0.1);
         }
         li .actions button.delete:hover {
             background-color: rgba(220, 53, 69, 0.1);
         }
-        .reset-button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .action-buttons button {
+            flex: 1;
+            padding: 14px;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 1.1em;
             font-weight: 600;
-            margin-top: 30px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .reset-button {
+            background-color: var(--danger-color);
         }
         .reset-button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
+            background-color: #c82333;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3);
         }
         .reset-button:active {
             transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(220, 53, 69, 0.2);
         }
         .copy-selected-button {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-top: 20px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            background-color: var(--primary-color);
         }
         .copy-selected-button:hover {
-            background-color: #5a6268;
-            transform: translateY(-2px);
+            background-color: var(--primary-hover-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
         }
         .copy-selected-button:active {
             transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
         }
         .toast {
             visibility: hidden;
-            min-width: 250px;
+            min-width: 280px;
             background-color: #333;
             color: #fff;
             text-align: center;
-            border-radius: 8px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 18px;
             position: fixed;
-            z-index: 1;
+            z-index: 1000;
             left: 50%;
-            bottom: 30px;
+            bottom: 40px;
             transform: translateX(-50%);
             font-size: 1.1em;
             opacity: 0;
-            transition: opacity 0.5s, visibility 0.5s;
+            transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
         .toast.show {
             visibility: visible;
@@ -375,6 +396,16 @@
             { text: "รสดี", checked: false },
             { text: "คนอร์", checked: false }
         ];
+
+        const bagSizes = {
+            "ถุงหิ้ว": ["12*20", "8*16", "7*15"],
+            "ถุงร้อน": ["14*12", "3*5", "4/5*7", "6*11"]
+        };
+
+        const bagSizes = {
+            "ถุงหิ้ว": ["12*20", "8*16", "7*15"],
+            "ถุงร้อน": ["14*12", "3*5", "4/5*7", "6*11"]
+        };
 
         const bagSizes = {
             "ถุงหิ้ว": ["12*20", "8*16", "7*15"],
