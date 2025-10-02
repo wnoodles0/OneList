@@ -5,194 +5,287 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รายการสิ่งของที่จะซื้อ - OneList</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Modern UI Enhancements */
         :root {
-            --primary-color: #4a90e2;
-            --primary-hover-color: #357abd;
-            --secondary-color: #50e3c2;
-            --background-color: #f7f9fc;
+            --primary-color: #6c5ce7; /* A vibrant purple */
+            --primary-hover-color: #5a4ac7;
+            --secondary-color: #00cec9; /* A bright teal */
+            --background-color: #f0f2f5; /* Light grey background */
             --container-bg: #ffffff;
-            --text-color: #333;
-            --border-color: #e0e6ed;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --success-color: #28a745;
-            --danger-color: #dc3545;
+            --text-color: #2d3436; /* Dark grey for text */
+            --light-text-color: #636e72;
+            --border-color: #dfe6e9;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --success-color: #00b894; /* Green for success */
+            --danger-color: #d63031; /* Red for danger */
+            --warning-color: #fdcb6e; /* Yellow for warning */
+            --info-color: #0984e3; /* Blue for info */
+            --font-family: 'Kanit', sans-serif;
         }
 
         body {
-            font-family: 'Kanit', sans-serif;
+            font-family: var(--font-family);
             margin: 0;
-            padding: 20px;
-            background-color: var(--background-color);
+            padding: 0;
+            background: linear-gradient(135deg, var(--background-color) 0%, #e8edf2 100%);
             color: var(--text-color);
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             min-height: 100vh;
+            font-size: 16px;
+            line-height: 1.6;
         }
+
         .container {
             max-width: 700px;
-            width: 100%;
-            margin: 20px auto;
+            width: 90%;
+            margin: 30px auto;
             background: var(--container-bg);
             padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 12px 40px var(--shadow-color);
+            border-radius: 20px;
+            box-shadow: 0 15px 45px var(--shadow-color);
             border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
         }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
         h1 {
-            color: #2c3e50;
+            color: var(--primary-color);
             text-align: center;
-            margin-bottom: 40px;
-            font-weight: 600;
-            font-size: 2.5em;
-            letter-spacing: -1px;
+            margin-bottom: 35px;
+            font-weight: 700;
+            font-size: 2.8em;
+            letter-spacing: -0.05em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
+
         .input-section {
             display: flex;
             margin-bottom: 30px;
-            gap: 10px;
+            gap: 12px;
         }
+
         .input-section input[type="text"] {
             flex-grow: 1;
-            padding: 14px 18px;
+            padding: 15px 20px;
             border: 2px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1.1em;
             outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            background-color: #fdfdfd;
+            color: var(--text-color);
         }
+
         .input-section input[type="text"]:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
+            box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.15);
+            background-color: #ffffff;
         }
+
         .input-section button {
-            padding: 14px 25px;
+            padding: 15px 28px;
             background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 1.1em;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+            box-shadow: 0 6px 15px rgba(108, 92, 231, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+
         .input-section button:hover {
             background-color: var(--primary-hover-color);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.35);
         }
+
         .input-section button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+            box-shadow: 0 4px 10px rgba(108, 92, 231, 0.2);
         }
+
         ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
         }
+
         li {
             background-color: var(--container-bg);
-            margin: 12px 0;
-            padding: 18px 20px;
-            border-radius: 10px;
+            margin: 10px 0;
+            padding: 15px 20px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
             border: 1px solid var(--border-color);
         }
+
         li:hover {
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transform: translateY(-3px);
         }
+
         li.checked {
-            background-color: #eaf7e9; /* Lighter green for checked items */
+            background-color: #e6fffa; /* Light teal for checked items */
             text-decoration: line-through;
-            color: #888;
-            border-color: #c8e6c9;
+            color: var(--light-text-color);
+            border-color: #b2f0e9;
             opacity: 0.8;
         }
+
         li input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--primary-color);
+            border-radius: 6px;
             margin-right: 15px;
-            transform: scale(1.5);
-            accent-color: var(--success-color);
             cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
         }
+
+        li input[type="checkbox"]:checked {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        li input[type="checkbox"]:checked::after {
+            content: '\f00c'; /* FontAwesome check icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: white;
+            font-size: 16px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
         li span {
             flex-grow: 1;
-            font-size: 1.15em;
-            color: #34495e;
+            font-size: 1.1em;
+            color: var(--text-color);
             word-break: break-word;
+            padding-right: 10px;
         }
+
         li.checked span {
-            color: #aab8c2;
+            color: var(--light-text-color);
         }
+
         li .actions button {
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 0.95em;
+            font-size: 1em;
             margin-left: 10px;
-            color: var(--primary-color);
-            transition: color 0.3s ease, background-color 0.3s ease;
+            color: var(--info-color);
+            transition: all 0.3s ease;
             padding: 8px 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }
+
         li .actions button.delete {
             color: var(--danger-color);
         }
+
         li .actions button:hover {
-            background-color: rgba(74, 144, 226, 0.1);
+            background-color: rgba(9, 132, 227, 0.1);
+            transform: translateY(-1px);
         }
+
         li .actions button.delete:hover {
-            background-color: rgba(220, 53, 69, 0.1);
+            background-color: rgba(214, 48, 49, 0.1);
         }
+
         .action-buttons {
             display: flex;
+            flex-wrap: wrap;
             gap: 15px;
             margin-top: 30px;
+            justify-content: center;
         }
+
         .action-buttons button {
             flex: 1;
-            padding: 14px;
+            min-width: 180px;
+            padding: 15px;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 1.1em;
             font-weight: 600;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
+
         .reset-button {
             background-color: var(--danger-color);
         }
+
         .reset-button:hover {
-            background-color: #c82333;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(220, 53, 69, 0.3);
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(214, 48, 49, 0.35);
         }
+
         .reset-button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(220, 53, 69, 0.2);
+            box-shadow: 0 4px 10px rgba(214, 48, 49, 0.2);
         }
+
         .copy-selected-button {
-            background-color: var(--primary-color);
+            background-color: var(--info-color);
         }
+
         .copy-selected-button:hover {
-            background-color: var(--primary-hover-color);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.3);
+            background-color: #007bff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(9, 132, 227, 0.35);
         }
+
         .copy-selected-button:active {
             transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.2);
+            box-shadow: 0 4px 10px rgba(9, 132, 227, 0.2);
         }
+
         .toast {
             visibility: hidden;
             min-width: 280px;
@@ -210,41 +303,50 @@
             opacity: 0;
             transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
         }
+
         .toast.show {
             visibility: visible;
             opacity: 1;
         }
 
         .bag-selection-section {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e6ed;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
         }
 
         .bag-selection-section h2 {
-            font-size: 1.4em;
-            color: #2c3e50;
-            margin-bottom: 15px;
+            font-size: 1.6em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
             text-align: center;
+            font-weight: 600;
         }
 
         .bag-type-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .bag-type-group h3 {
-            font-size: 1.2em;
-            color: #34495e;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed #e0e6ed;
-            padding-bottom: 5px;
+            font-size: 1.3em;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 8px;
+            display: inline-block;
+            font-weight: 500;
         }
 
         .bag-size-options {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
+            justify-content: center;
         }
 
         .bag-size-option {
@@ -261,32 +363,80 @@
 
         .bag-size-option span {
             display: block;
-            padding: 10px 15px;
-            border: 2px solid #aebfd1;
-            border-radius: 8px;
+            padding: 12px 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
             cursor: pointer;
-            background-color: #f8f9fa;
-            color: #34495e;
-            font-size: 1em;
-            font-weight: 400;
+            background-color: #fdfdfd;
+            color: var(--light-text-color);
+            font-size: 1.05em;
+            font-weight: 500;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .bag-size-option input[type="checkbox"]:checked + span {
-            background-color: #007bff;
+            background-color: var(--secondary-color);
             color: white;
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 4px rgba(0, 206, 201, 0.25);
+            transform: translateY(-2px);
         }
 
         .bag-size-option span:hover {
-            background-color: #e9ecef;
-            border-color: #007bff;
+            background-color: #eef2f5;
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .bag-size-option input[type="checkbox"]:checked + span:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
+            background-color: #00b8b3;
+            border-color: #00b8b3;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                width: 95%;
+            }
+            h1 {
+                font-size: 2em;
+                margin-bottom: 25px;
+            }
+            .input-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .input-section button {
+                width: 100%;
+            }
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+            }
+            li .actions {
+                margin-top: 10px;
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+            }
+            li input[type="checkbox"] {
+                margin-bottom: 10px;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            .action-buttons button {
+                min-width: unset;
+                width: 100%;
+            }
+            .toast {
+                width: 90%;
+                left: 5%;
+                transform: translateX(0);
+            }
         }
     </style>
 </head>
@@ -326,7 +476,7 @@
         const carryBagOptions = document.getElementById("carryBagOptions");
         const hotBagOptions = document.getElementById("hotBagOptions");
 
-        let items = JSON.parse(localStorage.getItem("oneListItems")) || [
+        let defaultItems = [
             { text: "ไก่สด", checked: false },
             { text: "เล็บมือนาง", checked: false },
             { text: "ตีนไก่", checked: false },
@@ -397,15 +547,7 @@
             { text: "คนอร์", checked: false }
         ];
 
-        const bagSizes = {
-            "ถุงหิ้ว": ["12*20", "8*16", "7*15"],
-            "ถุงร้อน": ["14*12", "3*5", "4/5*7", "6*11"]
-        };
-
-        const bagSizes = {
-            "ถุงหิ้ว": ["12*20", "8*16", "7*15"],
-            "ถุงร้อน": ["14*12", "3*5", "4/5*7", "6*11"]
-        };
+        let items = JSON.parse(localStorage.getItem("oneListItems")) || JSON.parse(JSON.stringify(defaultItems));
 
         const bagSizes = {
             "ถุงหิ้ว": ["12*20", "8*16", "7*15"],
